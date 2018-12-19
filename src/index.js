@@ -8,19 +8,37 @@ class App extends React.Component {
     // when using the constructor, it overrides the built in React.Component constructor
     super(props); // super is a referance to the parent React.Component
 
-    this.state = { lat: null }; // Inializing 'state' direct assignment, JS object (key value pairs) with it's default value to null
+    this.state = { lat: null, lon: null, errorMessage: '' }; // Inializing 'state' direct assignment, JS object (key value pairs) with it's default value to null
 
     window.navigator.geolocation.getCurrentPosition(
       position => {
-          // updating the state, rerendering
-          this.setState({ lat: position.coords.latitude }) // JS object
+        // updating the state, rerendering
+        this.setState({
+          lat: position.coords.latitude,
+          long: position.coords.longitude
+        }); // JS object
       },
-      err => console.log(err)
+      err => {
+        this.setState({ errorMessage: err.message });
+      }
     );
   }
 
   render() {
-    return <div>Latitude: {this.state.lat}</div>;
+    if (this.state.errorMessage && !this.state.lat && !this.state.long) {
+      return <div>Error: {this.state.errorMessage}</div>;
+    }
+
+    if (!this.state.errorMessage && this.state.lat && this.state.long) {
+      return (
+        <div class="ui raised very padded text container segment">
+          <h3>Your GPS Location:</h3>
+          <p>Lat: {this.state.lat}</p>
+          <p>Long: {this.state.long}</p>
+        </div>
+      );
+    }
+    return <div>Loading........!</div>;
   }
 }
 
