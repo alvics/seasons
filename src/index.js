@@ -12,7 +12,7 @@ class App extends React.Component {
 
     window.navigator.geolocation.getCurrentPosition(
       position => {
-        // updating the state, rerendering
+        // updating the state, rerendering with setState
         this.setState({
           lat: position.coords.latitude,
           long: position.coords.longitude
@@ -31,7 +31,7 @@ class App extends React.Component {
 
     if (!this.state.errorMessage && this.state.lat && this.state.long) {
       return (
-        <div class="ui raised very padded text container segment">
+        <div className="ui raised very padded text container segment">
           <h3>Your GPS Location:</h3>
           <p>Lat: {this.state.lat}</p>
           <p>Long: {this.state.long}</p>
@@ -54,6 +54,25 @@ ReactDOM.render(<App />, document.querySelector('#root'));
    'state' can ONLY be updated using the function 'setState'
    */
 
-/* JS constructor() 
+// Component Life Cycle
+
+/* JS constructor()  // good place to do one-time set up
       is the very first function that is called in the instance that it's created
-   */
+*/
+
+// render() // Avoid doing anything besides returning JSX
+
+/* Lifecycle Methods  
+
+   componentDidMount() {   // place to do data-loading!
+    console.log('My component was rendered to the screen');
+  }
+
+   componentDidUpdate() {  // place to do more data-loading when state/props change
+    console.log('My component was just updated - it rerendered');
+  }
+
+  componentWillMount() {  // place to cleanup (especially no-React stuff)
+
+  }
+  */
