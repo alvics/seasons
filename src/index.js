@@ -1,27 +1,26 @@
 // class component
 import React from 'react';
 import ReactDOM from 'react-dom';
-import SeasonDisplay from './SeasonDisplay'
-class App extends React.Component {
- state = { lat: null, lon: null, errorMessage: '' }; // Inializing 'state' direct assignment, JS object (key value pairs) with it's default value to null
+import SeasonDisplay from './SeasonDisplay';
+import Spinner from './Spinner';
 
-  
+class App extends React.Component {
+  state = { lat: null, lon: null, errorMessage: '' }; // Inializing 'state' direct assignment, JS object (key value pairs) with it's default value to null
 
   componentDidMount() {
-      window.navigator.geolocation.getCurrentPosition(
-        position => {
-          // updating the state, rerendering with setState
-          this.setState({
-            lat: position.coords.latitude,
-            long: position.coords.longitude
-          }); // JS object
-        },
-        err => {
-          this.setState({ errorMessage: err.message });
-        }
-      );
-    }
-  
+    window.navigator.geolocation.getCurrentPosition(
+      position => {
+        // updating the state, rerendering with setState
+        this.setState({
+          lat: position.coords.latitude,
+          long: position.coords.longitude
+        }); // JS object
+      },
+      err => {
+        this.setState({ errorMessage: err.message });
+      }
+    );
+  }
 
   render() {
     if (this.state.errorMessage && !this.state.lat && !this.state.long) {
@@ -29,17 +28,15 @@ class App extends React.Component {
     }
 
     if (!this.state.errorMessage && this.state.lat && this.state.long) {
-
       return (
         <div className="ui raised very padded text container segment">
-          <h3>Your GPS Location:</h3>
-     { /*  <p>Lat: {this.state.lat}</p>  */ }
-      { /*    <p>Long: {this.state.long}</p> */ }
-          <SeasonDisplay lat={this.state.lat} long={this.state.long}/>
+          {/*  <p>Lat: {this.state.lat}</p>  */}
+          {/*    <p>Long: {this.state.long}</p> */}
+          <SeasonDisplay lat={this.state.lat} long={this.state.long} />
         </div>
       );
     }
-    return <div>Loading........!</div>;
+    return <Spinner />;
   }
 }
 
